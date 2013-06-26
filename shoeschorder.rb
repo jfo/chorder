@@ -30,7 +30,7 @@ module Music
 
     blerp.insert(1,"dom") if blerp[1] == "7" 
 
-    if blerp[0].scan(/[#]/).to_s == "#"
+    if blerp[0].scan(/[#]/)[0].to_s == "#"
       rootindex = notes.index(Music.switch(blerp[0]))
     else
       rootindex = notes.index(blerp[0])
@@ -70,9 +70,12 @@ module Music
   #spellchecks the result of chorder for enharmonic spelling mistakes
   def Music.check(array) 
     naturals = ["A","B","C","D","E","F","G"]
-    testarray = array.map {|nark| nark = nark.scan(/[A,B,C,D,E,F,G]/).to_s}
+    testarray = array.map {|nark| nark = nark.scan(/[A,B,C,D,E,F,G]/)}
+    testarray[0] = testarray[0][0]
+    testarray[1] = testarray[1][0]
+    testarray[2] = testarray[2][0]    
+    testarray[3] = testarray[3][0]    
     switchhash = {"A"=>"A", "B"=>"B", "C"=>"C","D"=>"D", "E"=>"E","F"=>"F", "G"=>"G","D#" => "Eb","Ab"=>"G#","Gb"=>"F#","Eb"=>"D#","Db"=>"C#","Bb"=>"A#","A#"=>"Bb","G#"=>"Ab","E#"=>"F","D#"=>"Eb","B#"=>"C","C#"=>"Db","F#" => "Gb","Cb"=>"B", "Fb" => "E"}
-
     iroot = naturals.index(testarray[0])
     ithird = (iroot + 2)%7 
     ififth = (iroot + 4)%7
@@ -126,7 +129,7 @@ module Music
       chord = Music.chorder(chord) 
     end
 
-    chord = Music.check(chord)
+    puts chord = Music.check(chord)
 
     #inverts the chord 
     if inv != "" || inv == nil 
@@ -198,7 +201,7 @@ module Music
       one = true 
       fretboard.each do |glerb|
         if glerb[12] != "|---"
-          glerb[0] = "|#{glerb[12].scan(/[A-Z]/)}" 
+          glerb[0] = "|#{glerb[12].scan(/[A-Z]/)[0]}" 
           glerb[12] = "|---"
         end
       end
@@ -213,7 +216,7 @@ module Music
         flerb[14] = flerb[2]
         flerb[15]= flerb[3]
         if flerb[0] != "| "
-          flerb[12] = "|-#{flerb[0].scan(/[A-Z]/)}-"
+          flerb[12] = "|-#{flerb[0].scan(/[A-Z]/)[0]}-"
         end
         flerb[0] = "| "
         flerb[1] = "|---"
@@ -233,13 +236,13 @@ module Music
 end
 
 #little GUI
-Shoes.app(:title => "The Chorder",:left => 0.5, :width => 700, :height => 510) do
+Shoes.app(:title => "The Chorder",:left => 0.5, :width => 900, :height => 650) do
   notes = ["A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"]
   qual = ["M7", "m7", "7", "m7b5","mM7","M7#5","d"]
 
   #these take the output of printer and prettify it with musical characters
   def pretty(string)
-    string = string.gsub('-','―').gsub('b','♭').gsub('#','♯').gsub('|','┼').gsub('M','△').gsub('m','-').gsub('d','∘7')
+    string = string.gsub('b','♭').gsub('#','♯').gsub('M','△').gsub('m','-').gsub('d','∘7').gsub('|','┼')
   end
   def prettytwo(string)
     string = string.gsub('0','Root Position').gsub('1','1st Inversion').gsub('2','2nd Inversion').gsub('3','3rd Inversion')
@@ -248,7 +251,7 @@ Shoes.app(:title => "The Chorder",:left => 0.5, :width => 700, :height => 510) d
     string = string.gsub('1','one - four').gsub('2','two - five').gsub('3','three - six')
   end
 
-  stack :top => 0, :left => 200 do
+  flow :top => 0, :left => 200 do
     banner "THE CHORDER", :font => "50px" 
   end
 
@@ -268,38 +271,37 @@ Shoes.app(:title => "The Chorder",:left => 0.5, :width => 700, :height => 510) d
     button("G") {@note = "G"}
   end
   flow :top => 120, :left => 10 do
-    button("♮") {@acc = ""} 
+    button("♮") {@acc = ""}
     button("♯") {@acc = "#"}
     button("♭") {@acc = "b"}
+    
   end
   flow :top => 160, :left => 10, :width => 250 do
-    button("△7") {@qual = "M7"}
+    button("△ 7") {@qual = "M7"}
     button("-7") {@qual = "m7"}
     button("7") {@qual = "7"}
-    button("-7♭5") {@qual = "m7b5"}
-    button("-△7") {@qual = "mM7"}
-    button("△7♯5") {@qual = "M7#5"}
+    button("-7♭ 5") {@qual = "m7b5"}
+    button("-△ 7") {@qual = "mM7"}
+    button("△ 7♯ 5") {@qual = "M7#5"}
     button("∘7") {@qual = "d"}
   end
-  flow :top => 235, :left => 10 do
+  flow :top => 265, :left => 10 do
     button("R") {@inv = "0"}
     button("1st") {@inv = "1"}
     button("2nd") {@inv = "2"}
     button("3rd") {@inv = "3"}
   end
-  flow :top => 275, :left => 10 do
-    background white
+  flow :top => 295, :left => 10 do
     button("1..4").click {@set = "1"}
     button("2..5").click {@set = "2"}
     button("3..6").click {@set = "3"}
   end
   flow :top =>0, :left => 10  do 
     button("Random!") do
-      @note = "#{notes[rand(12)].scan(/[A-Z]/).to_s}"
       blorp = (rand(3)+1)
       @acc = "#" if blorp == 2
       @acc = "b" if blorp == 1
-      @note = "#{notes[rand(12)].scan(/[A-Z]/).to_s}"
+      @note = "#{notes[rand(12)].scan(/[A-Z]/)[0].to_s}"
       @qual = "#{qual[rand(7)]}"
       @inv = rand(3).to_s
       @set = (rand(3)+1).to_s
@@ -308,14 +310,14 @@ Shoes.app(:title => "The Chorder",:left => 0.5, :width => 700, :height => 510) d
   @feed = flow :top => 150, :left =>400 do
     animate(2) do 
       @feed.clear
-      @feed.para "#{pretty(@note+@acc+@qual)}\n", :font => "andale mono 55px "
+      @feed.para "#{pretty(@note+@acc+@qual)}\n", :font => "menlo 55px "
       @feed.para "#{prettytwo(@inv)}, Strings #{prettythree(@set)}"
     end
   end
-  @result = flow :top => 325, :left =>100 do
+  @result = flow :top => 400, :left =>100 do
     animate(2) do 
       @result.clear
-      @result.para "#{pretty(Music.printer(@note+@acc+@qual,@inv,@set))}", :font => "andale mono 15px"
+    @result.para "#{pretty(Music.printer(@note+@acc+@qual,@inv,@set).gsub('-','┈'))}", :font => "menlo 19px"
      end
   end
 end

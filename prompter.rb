@@ -1,22 +1,26 @@
 require_relative 'chorder'
 
-
-
-
 qualities = ["M7","m7","7","M7#5","m7b5","7#5","7b5","mM7","d"]
 roots = ["A","B","C","D","E","F","G"]
 
+x = 0
+
 loop do
   system ("clear") 
+
+  if x == 0 
   puts "The Chorder - By Jeff Fowler"
   puts
   puts "Enter information as prompted, hit enter to randomize." 
   puts
   puts "To exit the program, press Ctrl-C"
-  puts "All of the voicings are accurate, though sometimes the enharmonic spellings get wonky. You may have to transpose a note or two up or down an octave if the voicing straddles the 12th fret."
+  puts
+  puts "All of the voicings are accurate, though sometimes the enharmonic spellings get a little wonky, mostly with diminished and altered fifth chords."
   puts
   puts "Hit Enter to start!"
   gets
+  x +=1
+  end
 
  system ("clear")
   puts
