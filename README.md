@@ -1,4 +1,4 @@
-This is a program that generates fretboard diagrams for any inversion of any seventh chords on any one of four contiguous stringsets. 
+This is a program that generates fretboard diagrams for any inversion of any seventh chord on any one of four contiguous stringsets. 
 
 The voicings are all in a Drop 2 voicing: 
 http://en.wikipedia.org/wiki/Block_chord
