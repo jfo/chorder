@@ -16,8 +16,11 @@ More info:
 The seventh chords that are used are derived from all the possible indigenous seventh chords in all four primary seven toned scales that have neither consecutive halfsteps nor more than one augmented 2nd:
 
 Major
+
 Melodic Minor
+
 Harmonic Minor
+
 Harmonic Major
 
 "Indigenous" means that they can be built out of strictly thirds starting on a scale degree.
