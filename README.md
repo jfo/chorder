@@ -9,4 +9,4 @@ prompter.rb is a simple terminal interface that asks a series of questions to ge
 
 random.rb will simply display random voicings at interval,
 
-and shoeschorder.rb is a rudimentary GUI developed with Shoes 3. It is functional and will work on OS X. Unfortunately Shoes' package bundler crashes pretty hardcore, so you'll have to download and run the shoes interpreter to use it that way.  
+and shoeschorder.rb is a rudimentary GUI developed with Shoes 3. It is functional and will work on OS X. Unfortunately Shoes' package bundler crashes pretty hardcore, so you'll have to download and run the shoes interpreter to use it that way. You can get that here: http://shoesrb.com/downloads.html
